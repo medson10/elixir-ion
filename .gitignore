@@ -25,3 +25,5 @@ elixir-ion-*.tar
 # linter
 /.elixir_ls/
 
+
+/docs
