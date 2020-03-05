@@ -1,33 +1,59 @@
 ---
 name: test
+env:
+  MIX_ENV: test
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-"on": push
+on:
+  push:
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        elixir: ['1.9.x', '1.10.x']
-        erlang: ['21.x', '22.x']
+        elixir: ["1.9.x", "1.10.x"]
+        erlang: ["21.x", "22.x"]
         os: [ubuntu-latest]
     name: test
     steps:
-      - uses: actions/setup-elixir@v1.2.0
+      - name: Setup elixir
+        uses: actions/setup-elixir@v1.2.0
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.erlang }}
-      - uses: actions/checkout@v1
-      - uses: actions/cache@v1
+
+      - name: Checkout repository
+        uses: actions/checkout@v1
+
+      - name: Get deps cache
+        uses: actions/cache@v1
         with:
-          path: _build
-          key: ${{ matrix.elixir }}_erl${{ matrix.erlang }}-build
-      - uses: actions/cache@v1
+          path: deps/
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-deps-
+
+      - name: Get build cache
+        uses: actions/cache@v1
         with:
-          path: deps
-          key: ${{ matrix.elixir }}_erl${{ matrix.erlang }}-deps
+          path: _build/test/
+          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-build-
+
+      - name: Install Dependencies
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+          mix compile
+
       - name: Lint & test
         run: |
-          mix "do" local.hex --force, local.rebar --force
-          mix "do" deps.get, cotton.lint
+          cotton.lint
+          mix test
           # mix coveralls.github
+
+      - name: Upload coverage to codecov
+        uses: codecov/codecov-action@v1.0.2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
