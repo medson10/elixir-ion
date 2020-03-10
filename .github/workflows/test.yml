@@ -48,7 +48,7 @@ jobs:
 
       - name: Lint & test
         run: |
-          # mix cotton.lint
+          mix check_fast
           mix test
           mix coveralls.json
 
