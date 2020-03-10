@@ -9,5 +9,6 @@ defmodule ElixirIon.Commit do
   def pre_commit do
     System.cmd("mix", ["format"] ++ staged_files([".ex", ".exs"]))
     System.cmd("git", ["add"] ++ staged_files())
+    {:ok, "Pre commit ok"}
   end
 end
