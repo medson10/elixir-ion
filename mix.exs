@@ -44,7 +44,7 @@ defmodule ElixirIon.MixProject do
       watch: ["cotton.watch"],
       check: ["cotton.lint"],
       # dialyzer is slow on ci
-      check_fast: ["mix format --check-formatted", "mix credo --strict", "mix inch --pedantic"],
+      check_fast: ["format --check-formatted", "credo --strict", "inch --pedantic"],
       fix: ["cotton.lint --fix"]
     ]
   end
