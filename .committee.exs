@@ -7,7 +7,8 @@ defmodule ElixirIon.Commit do
   This function auto-runs `mix format` on staged files.
   """
   def pre_commit do
-    System.cmd("mix", ["format"] ++ staged_files([".ex", ".exs"]))
+    System.cmd("mix", ["format", "--check-equivalent"] ++ staged_files([".ex", ".exs"]))
     System.cmd("git", ["add"] ++ staged_files())
+    {:ok, "pre-commit ok 🚀"}
   end
 end

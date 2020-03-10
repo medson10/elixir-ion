@@ -3,7 +3,10 @@
 [![Hex.pm](https://img.shields.io/hexpm/v/PROJECT_NAME.svg)](https://hex.pm/packages/PROJECT_NAME)
 # Elixir Ion
 
-**TODO: Add description**
+After clonning run
+- mix deps.get
+- mix deps.compile
+- mix committee.install
 
 ## Installation
 
