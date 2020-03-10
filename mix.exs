@@ -15,9 +15,9 @@ defmodule ElixirIon.MixProject do
         "coveralls.detail": :test,
         "coveralls.post": :test,
         "coveralls.html": :test
-      ]
+      ],
       # if you want to use espec,
-      # test_coverage: [tool: ExCoveralls, test_task: "espec"]
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 

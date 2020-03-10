@@ -30,15 +30,15 @@ jobs:
         uses: actions/cache@v1
         with:
           path: deps/
-          key: ${{ runner.os }}-deps-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-deps-
+          key: ${{ matrix.elixir }}_erl${{ matrix.erlang }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+          restore-keys: ${{ matrix.elixir }}_erl${{ matrix.erlang }}-deps-
 
       - name: Get build cache
         uses: actions/cache@v1
         with:
           path: _build/test/
-          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-build-
+          key: ${{ matrix.elixir }}_erl${{ matrix.erlang }}-build-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+          restore-keys: ${{ matrix.elixir }}_erl${{ matrix.erlang }}-build-
 
       - name: Install Dependencies
         run: |
