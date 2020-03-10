@@ -49,9 +49,9 @@ jobs:
 
       - name: Lint & test
         run: |
-          mix cotton.lint
+          # mix cotton.lint
           mix test
-          mix coveralls.github
+          mix coveralls.json
 
       - name: Upload coverage to codecov
         uses: codecov/codecov-action@v1.0.2
